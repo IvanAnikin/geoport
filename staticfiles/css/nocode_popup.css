@@ -1,0 +1,17 @@
+.nocode_popup {
+    left: 5%;
+    top: 3%;
+    width: 90%;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(28, 19, 19, 0.19);
+}
+.hideform {
+    display: none;
+}
+#allSampleContent{
+    margin-top: 5%;
+}
+#popup_btn{
+    margin-left: 25%;
+}

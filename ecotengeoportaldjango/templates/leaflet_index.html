@@ -1,0 +1,449 @@
+{% load leaflet_tags %}
+
+<!doctype html>
+<head>
+    <title>GEOPORTAL, ECOTEN Urban Comfort</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/nocode_popup.css">
+
+    <!-- script src='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css' rel='stylesheet' / -->
+
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.0/mapbox-gl-draw.css" type="text/css">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.4.0/mapbox-gl-draw.js"></script>
+
+
+    {% leaflet_js %}
+    {% leaflet_css %}
+    <style>
+      .leaflet-container { height: 100%; }
+    </style>
+    <script>
+
+      /*window.addEventListener("map:init", function (event) {
+        var map = event.detail.map;
+        // Download GeoJSON data with Ajax
+        fetch(dataurl)
+          .then(function(resp) {
+            return resp.json();
+          })
+          .then(function(data) {
+            L.geoJson(data, {*/
+
+        window.onload = function(){
+              onEachFeature: function onEachFeature(feature, layer) {
+                var props = feature.properties;
+                var content = `<img width="300" src="https://docs.mapbox.com/mapbox-gl-js/assets/radar.gif"/>
+                                <h3>Radar layer</h3>
+                                                          <p>
+                                                        [-80.425, 46.437],
+                                                        [-71.516, 46.437],
+                                                        [-71.516, 37.936],
+                                                        [-80.425, 37.936]</p>`;
+              layer.bindPopup(content);
+            }
+
+          const map = L.map("map", {
+            minZoom: 2
+          });
+
+          map.setView([34.02, -118.805], 13);
+
+          // var map = L.map('map').setView([37.8, -96], 4);
+
+          var osm = L.tileLayer('https://tile.openstreetmap.org/{34}/{-118}/{13}.png', {
+              maxZoom: 19,
+              attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          }).addTo(map);
+
+          const apiKey = "YOUR_API_KEY";
+
+          const basemapEnum = "ArcGIS:Streets";
+
+          L.esri.Vector.vectorBasemapLayer(basemapEnum, {
+            apiKey: apiKey
+          }).addTo(map);
+      
+        
+        }
+    </script>
+
+
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.css"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"
+    ></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/icofont/icofont.min.css">
+    <link rel="stylesheet" href="vendor/boxicons/css/boxicons.min.css">
+    <link href="vendor/venobox/venobox.css" >
+    <link rel="stylesheet" href="vendor/owl.carousel/assets/owl.carousel.min.css"> 
+    <link rel="stylesheet" href="vendor/aos/aos.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <!--Chart js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+
+    <link rel="shortcut icon" type="image/png" href="images/ecoten_logo_plne.png"/>
+
+    <script src="https://unpkg.com/gojs@2.3.9/release/go.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/geotiff@0.4.1/dist/main.js"></script>
+    <script src="https://unpkg.com/plotty@0.2.0/src/plotty.js"></script>
+    <script src="leaflet-geotiff.js"></script>
+    <!-- Load any renderer you need -->
+
+  </head>
+  <body>
+
+
+    <main>
+      <div class="px-4 py-3 my-2 text-center" styles="padding:0px!important; margin:0px!important;">
+        <nav class="navbar fixed-top navbar-light bg-light" style="width: fit-content!important; border-radius: 5%;">
+          <a class="navbar-brand" href="https://urban-comfort.eu/">ECOTEN Urban Comfort geoportal</a>
+
+        </nav>
+
+      </div>
+    
+      <h1 style="font-family: Arial">Leaflet Ecoten Geoportal</h1>
+        
+      <div id="leafletmap_div">
+          {% leaflet_map "main" %}
+          
+      </div>
+
+      <br>
+
+
+
+      <div id="filters_box_absolute_div">
+    
+
+        <button class="btn" id="popup_btn">
+          <i class="bi bi-diagram-3"></i>
+          Nocode diagram
+        </button>
+
+      </div>
+
+      <iframe width="425" height="350" src="https://www.openstreetmap.org/export/embed.html?bbox=10.854492187500002%2C46.7248003746672%2C29.311523437500004%2C55.178867663282006&amp;layer=mapnik" style="border: 1px solid black"></iframe><br/><small><a href="https://www.openstreetmap.org/#map=6/51.145/20.083">View Larger Map</a></small>
+
+    </main>
+
+
+
+      
+    <div class="nocode_popup" style="display:none" id="nocode_popup">
+
+      <button id="close" class="btn" style="float: right;">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+      
+
+      <div id="allSampleContent" class="p-4 w-full">
+        <script id="code">
+          function init() {
+      
+            // Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
+            // For details, see https://gojs.net/latest/intro/buildingObjects.html
+            const $ = go.GraphObject.make;  // for conciseness in defining templates
+      
+            // some constants that will be reused within templates
+            var roundedRectangleParams = {
+              parameter1: 2,  // set the rounded corner
+              spot1: go.Spot.TopLeft, spot2: go.Spot.BottomRight  // make content go all the way to inside edges of rounded corners
+            };
+      
+            myDiagram =
+              new go.Diagram("myDiagramDiv",  // must name or refer to the DIV HTML element
+                {
+                  "animationManager.initialAnimationStyle": go.AnimationManager.None,
+                  "InitialAnimationStarting": e => {
+                      var animation = e.subject.defaultAnimation;
+                      animation.easing = go.Animation.EaseOutExpo;
+                      animation.duration = 900;
+                      animation.add(e.diagram, 'scale', 0.1, 1);
+                      animation.add(e.diagram, 'opacity', 0, 1);
+                  },
+      
+                  // have mouse wheel events zoom in and out instead of scroll up and down
+                  "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
+                  // support double-click in background creating a new node
+                  "clickCreatingTool.archetypeNodeData": { text: "new node" },
+                  // enable undo & redo
+                  "undoManager.isEnabled": true,
+                  positionComputation: (diagram, pt) => {
+                    return new go.Point(Math.floor(pt.x), Math.floor(pt.y));
+                  }
+                });
+      
+            // when the document is modified, add a "*" to the title and enable the "Save" button
+            myDiagram.addDiagramListener("Modified", e => {
+              var button = document.getElementById("SaveButton");
+              if (button) button.disabled = !myDiagram.isModified;
+              var idx = document.title.indexOf("*");
+              if (myDiagram.isModified) {
+                if (idx < 0) document.title += "*";
+              } else {
+                if (idx >= 0) document.title = document.title.slice(0, idx);
+              }
+            });
+      
+            // define the Node template
+            myDiagram.nodeTemplate =
+              $(go.Node, "Auto",
+                {
+                  locationSpot: go.Spot.Top,
+                  isShadowed: true, shadowBlur: 1,
+                  shadowOffset: new go.Point(0, 1),
+                  shadowColor: "rgba(0, 0, 0, .14)"
+                },
+                new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                // define the node's outer shape, which will surround the TextBlock
+                $(go.Shape, "RoundedRectangle", roundedRectangleParams,
+                  {
+                    name: "SHAPE", fill: "#ffffff", strokeWidth: 0,
+                    stroke: null,
+                    portId: "",  // this Shape is the Node's port, not the whole Node
+                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+                    cursor: "pointer"
+                  }),
+                $(go.TextBlock,
+                  {
+                    font: "bold small-caps 11pt helvetica, bold arial, sans-serif", margin: 7, stroke: "rgba(0, 0, 0, .87)",
+                    editable: true  // editing the text automatically updates the model data
+                  },
+                  new go.Binding("text").makeTwoWay())
+              );
+      
+      
+            // unlike the normal selection Adornment, this one includes a Button
+            myDiagram.nodeTemplate.selectionAdornmentTemplate =
+              $(go.Adornment, "Spot",
+                $(go.Panel, "Auto",
+                  $(go.Shape, "RoundedRectangle", roundedRectangleParams,
+                  { fill: null, stroke: "#7986cb", strokeWidth: 3 }),
+                  $(go.Placeholder)  // a Placeholder sizes itself to the selected Node
+                ),
+                // the button to create a "next" node, at the top-right corner
+                $("Button",
+                  {
+                    alignment: go.Spot.TopRight,
+                    click: addNodeAndLink  // this function is defined below
+                  },
+                  $(go.Shape, "PlusLine", { width: 6, height: 6 })
+                ) // end button
+              ); // end Adornment
+      
+            myDiagram.nodeTemplateMap.add("Start",
+              $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
+                new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                $(go.Shape, "Circle",
+                  {
+                    fill: "#52ce60", /* green */
+                    stroke: null,
+                    portId: "",
+                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+                    cursor: "pointer"
+                  }),
+                $(go.TextBlock, "Start",
+                  {
+                    font: "bold 16pt helvetica, bold arial, sans-serif",
+                    stroke: "whitesmoke"
+                  })
+              )
+            );
+      
+            myDiagram.nodeTemplateMap.add("End",
+              $(go.Node, "Spot", { desiredSize: new go.Size(75, 75) },
+                new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+                $(go.Shape, "Circle",
+                  {
+                    fill: "maroon",
+                    stroke: null,
+                    portId: "",
+                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true,
+                    cursor: "pointer"
+                  }),
+                $(go.Shape, "Circle", { fill: null, desiredSize: new go.Size(65, 65), strokeWidth: 2, stroke: "whitesmoke" }),
+                $(go.TextBlock, "End",
+                  {
+                    font: "bold 16pt helvetica, bold arial, sans-serif",
+                    stroke: "whitesmoke"
+                  })
+              )
+            );
+      
+            // clicking the button inserts a new node to the right of the selected node,
+            // and adds a link to that new node
+            function addNodeAndLink(e, obj) {
+              var adornment = obj.part;
+              var diagram = e.diagram;
+              diagram.startTransaction("Add State");
+      
+              // get the node data for which the user clicked the button
+              var fromNode = adornment.adornedPart;
+              var fromData = fromNode.data;
+              // create a new "State" data object, positioned off to the right of the adorned Node
+              var toData = { text: "new" };
+              var p = fromNode.location.copy();
+              p.x += 200;
+              toData.loc = go.Point.stringify(p);  // the "loc" property is a string, not a Point object
+              // add the new node data to the model
+              var model = diagram.model;
+              model.addNodeData(toData);
+      
+              // create a link data from the old node data to the new node data
+              var linkdata = {
+                from: model.getKeyForNodeData(fromData),  // or just: fromData.id
+                to: model.getKeyForNodeData(toData),
+                text: "transition"
+              };
+              // and add the link data to the model
+              model.addLinkData(linkdata);
+      
+              // select the new Node
+              var newnode = diagram.findNodeForData(toData);
+              diagram.select(newnode);
+      
+              diagram.commitTransaction("Add State");
+      
+              // if the new node is off-screen, scroll the diagram to show the new node
+              diagram.scrollToRect(newnode.actualBounds);
+            }
+      
+            // replace the default Link template in the linkTemplateMap
+            myDiagram.linkTemplate =
+              $(go.Link,  // the whole link panel
+                {
+                  curve: go.Link.Bezier,
+                  adjusting: go.Link.Stretch,
+                  reshapable: true, relinkableFrom: true, relinkableTo: true,
+                  toShortLength: 3
+                },
+                new go.Binding("points").makeTwoWay(),
+                new go.Binding("curviness"),
+                $(go.Shape,  // the link shape
+                  { strokeWidth: 1.5 },
+                  new go.Binding('stroke', 'progress', progress => progress ? "#52ce60" /* green */ : 'black'),
+                  new go.Binding('strokeWidth', 'progress', progress => progress ? 2.5 : 1.5)),
+                $(go.Shape,  // the arrowhead
+                  { toArrow: "standard", stroke: null },
+                  new go.Binding('fill', 'progress', progress => progress ? "#52ce60" /* green */ : 'black')),
+                $(go.Panel, "Auto",
+                  $(go.Shape,  // the label background, which becomes transparent around the edges
+                    {
+                      fill: $(go.Brush, "Radial",
+                        { 0: "rgb(245, 245, 245)", 0.7: "rgb(245, 245, 245)", 1: "rgba(245, 245, 245, 0)" }),
+                      stroke: null
+                    }),
+                  $(go.TextBlock, "transition",  // the label text
+                    {
+                      textAlign: "center",
+                      font: "9pt helvetica, arial, sans-serif",
+                      margin: 4,
+                      editable: true  // enable in-place editing
+                    },
+                    // editing the text automatically updates the model data
+                    new go.Binding("text").makeTwoWay())
+                )
+              );
+      
+            // read in the JSON data from the "mySavedModel" element
+            load();
+          }
+      
+          // Show the diagram's model in JSON format
+          function save() {
+            document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+            myDiagram.isModified = false;
+          }
+          function load() {
+            myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+          }
+      
+          window.addEventListener('DOMContentLoaded', init);
+        </script>
+      
+        <div id="sample">
+          <div id="myDiagramDiv" style="border: 1px solid black; width: 100%; height: 460px; background: whitesmoke; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0);"><canvas tabindex="0" width="2108" height="916" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 1054px; height: 458px;">This text is displayed if your browser does not support the Canvas HTML element.</canvas><div style="position: absolute; overflow: auto; width: 1054px; height: 458px; z-index: 1;"><div style="position: absolute; width: 1px; height: 1px;"></div></div></div>
+          
+          <div>
+            <div>
+              <button id="SaveButton" onclick="save()" disabled="" class="btn btn-secondary">Update</button>
+              <button onclick="load()" class="btn btn-secondary">Load</button>
+              <button class="btn btn-primary">Save</button>
+              Diagram in JSON format:
+            </div>
+            <textarea id="mySavedModel" style="width:100%;height:300px">
+              
+              { "class": "GraphLinksModel",
+                "nodeKeyProperty": "id",
+                "nodeDataArray": [
+              {"id":-1,"loc":"-2.622456772852729 343.5675163871159","category":"Start"},
+              {"id":0,"loc":"513.4362216856562 259.6351345401047","text":"Land Surface Temperature"},
+              {"id":1,"loc":"501.94245488245195 313.0462306320488","text":"Elderly Population"},
+              {"id":2,"loc":"452.82865798788396 457.11706218942027","text":"Vegetation"},
+              {"id":3,"loc":"1015.8200481612865 367.8022963582054","text":"Sensitivity"},
+              {"id":-2,"loc":"1488.6246575936925 364.553854900704","category":"End"},
+              {"text":"Exposure","loc":"1009.9097961579182 247.9364602422088","id":-7},
+              {"text":"Adaptive Capacity","loc":"1038.063924004679 511.8681294113479","id":-8},
+              {"text":"Heat Vulnerability","loc":"1309.8464739960941 383.5652500939483","id":-9},
+              {"text":"Water/Moisture","loc":"442.7647489756302 532.0674769477721","id":-10},
+              {"text":"Nascent Population","id":-11,"loc":"484.3776674554427 371.89332827577164"},
+              {"id":-12,"loc":"501.94245488245195 313.0462306320488","text":"Elderly Population"}
+              ],
+                "linkDataArray": [
+              {"from":-1,"to":0,"text":"","points":[70.25198830681256,368.6216883589876,178.99771309661583,330.6852601495886,289.99015777915963,303.6309200234177,406.48146554377075,288.2565631748906]},
+              {"from":-1,"to":1,"text":"","points":[71.46855928721827,372.86096146488296,187.0672157222135,347.19112782954664,303.45855885517454,331.9581233765312,422.1292758663387,329.34346313809874]},
+              {"from":-1,"to":-11,"text":"","points":[72.37488815121293,381.51374911299763,183.8424143158113,371.856538326025,294.73746239112006,373.03929996522567,403.19369986511066,386.53789496960786]},
+              {"from":3,"to":-9,"progress":"true","text":"+","points":[1062.895205326814,371.97001338702586,1123.6121310225753,358.1908872390629,1180.7004010314495,371.494425415841,1239.160941024697,383.5652500939483]},
+              {"from":-8,"to":-9,"text":"-","points":[1062.9175102614613,511.8681294113479,1127.5356701776138,473.30289476533306,1194.831978174693,439.1342970838281,1267.290709927581,413.4406987023467]},
+              {"from":-7,"to":-9,"text":"+","points":[1051.9537896894358,276.6231666802275,1133.2753149213413,303.8415776140291,1211.4253599802855,338.69414809327293,1285.4133785721115,383.5652500939483]},
+              {"from":-9,"to":-2,"text":"","points":[1387.4728167695316,386.56506276471936,1421.6847391434676,381.7431534168108,1455.9034446213861,381.75542222898116,1490.1358279768385,391.51563195710264]},
+              {"from":-1,"to":-10,"text":"","points":[70.82398315241437,391.74943834429024,189.8812704849916,427.74013985313496,304.40200842643486,474.646238680791,414.5525481947828,532.0674769477721]},
+              {"from":-1,"to":2,"points":[72.16761481965024,385.02990968233576,183.7050150343942,396.47108196593314,292.5035112137575,419.82158824680175,407.0163953687213,457.323415228779],"text":""}
+              ]}
+            </textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </body>
+
+  <script src="js/leaflet.js"></script>
+
+</html>
